@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UMIGURI スキル作成支援ツール</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="apple-touch-icon" href="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold">UMIGURI スキル作成支援ツール</a>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+
+    <div class="row my-2">
+
+      <div class="col-12 mt-4">
+        <div class="d-flex position-relative border border-primary rounded p-3 list-group-item list-group-item-action">
+          <div>
+            <h5 class="my-0 fw-bold">スキルサンプル集<i class="ms-2 bi bi-box-arrow-up-right"></i></h5>
+            <a href="sample.html" class="stretched-link"></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="h5 bg-primary text-white fw-bold p-2 rounded mt-4">基本設定</div>
+        <!--<input type="text" class="form-control mb-2" id="file-name" placeholder="ファイル名を入力">
+          <span class="d-inline-block overflow-hidden small text-muted mb-2">{ファイル名}_0.ucslの名前でダウンロードされます。</span>-->
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキル説明［Japanese］</div>
+        <input type="text" class="form-control mb-2" id="meta-title" placeholder="スキル名を入力">
+        <textarea type="text" class="form-control mb-2" rows="4" id="meta-desc" placeholder="スキル説明を入力［最大4行］"></textarea>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキル説明［English］</div>
+        <input type="text" class="form-control mb-2" id="meta-title-en" placeholder="スキル名を入力">
+        <textarea type="text" class="form-control mb-2" rows="4" id="meta-desc-en" placeholder="スキル説明を入力［最大4行］"></textarea>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル説明は使用する言語のみもしくは両方を入力してください。</span>
+
+        <input type="number" class="form-control" id="meta-version" placeholder="バージョンを入力">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">指定がない場合は1になります。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">専用スキル設定</div>
+        <textarea type="text" class="form-control" id="meta-targetchara" placeholder="キャラ識別子を入力" rows="2"></textarea>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">キャラ識別子：{グループ名}/{キャラID}/{トランスフォーム番号}<br>複数指定する場合は改行してください。<br>指定がない場合は汎用スキルになります。</span>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="h5 bg-success text-white fw-bold p-2 rounded mt-4">スキル設定</div>
+        <!--<div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">グレード設定</div>
+        <input type="number" class="form-control" id="meta-grade" placeholder="スキルグレードを入力" readonly>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">指定がない場合は0になります。</span>-->
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター初期値</div>
+        <input type="number" class="form-control" id="meta-countdef" placeholder="スキルカウンターの初期値を入力">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">カウントを使用しない場合は空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキル属性選択</div>
+        <div class="my-2 row row-cols-4 row-cols-lg-6 g-1" id="meta-indicator">
+          <input type="radio" name="attr" class="btn-check" id="attr-opt1" value="None">
+          <label for="attr-opt1" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_none.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt2" value="Matching">
+          <label for="attr-opt2" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt3" value="Guard">
+          <label for="attr-opt3" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt4" value="Support">
+          <label for="attr-opt4" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+
+          <input type="radio" name="attr" class="btn-check" id="attr-opt5" value="BNormal">
+          <label for="attr-opt5" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt6" value="BTarget">
+          <label for="attr-opt6" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost2.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt7" value="BTech">
+          <label for="attr-opt7" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost3.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt8" value="BManiac">
+          <label for="attr-opt8" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost4.png"></label>
+
+          <input type="radio" name="attr" class="btn-check" id="attr-opt9" value="DHard">
+          <label for="attr-opt9" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt10" value="DAbs">
+          <label for="attr-opt10" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_death2.png"></label>
+          <input type="radio" name="attr" class="btn-check" id="attr-opt11" value="DCat">
+          <label for="attr-opt11" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_death3.png"></label>
+        </div>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">デンジャースキル</div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="onDeath" checked>
+          <label class="form-check-label" for="onDeath">
+            デンジャースキルとして設定する。
+          </label>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">カウントが0になるとゲームを強制終了します。<br>ゲーム開始時にスキル演出が入ります。<br>専用のスキルインジケーターが追加されます。</span>
+
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキルインジケーター選択</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ノーマル1</div>
+        <div class="my-2 row row-cols-4 row-cols-lg-6 g-0" id="meta-indicator1">
+          <input type="radio" name="innormal1" class="btn-check" id="attr-opt14" value="" checked>
+          <label for="attr-opt14" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_none.png"></label>
+          <input type="radio" name="innormal1" class="btn-check" id="in-opt1" value="INMatch">
+          <label for="in-opt1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="innormal1" class="btn-check" id="in-opt2" value="INGuard">
+          <label for="in-opt2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="innormal1" class="btn-check" id="in-opt3" value="INSupport">
+          <label for="in-opt3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="innormal1" class="btn-check" id="in-opt4" value="INBoost">
+          <label for="in-opt4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+        </div>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ノーマル2</div>
+        <div class="my-2 row row-cols-4 row-cols-lg-6 g-0" id="meta-indicator1">
+          <input type="radio" name="innormal2" class="btn-check" id="attr-opt15" value="" checked>
+          <label for="attr-opt15" class="col btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_none.png"></label>
+          <input type="radio" name="innormal2" class="btn-check" id="in-opt16" value="INMatch">
+          <label for="in-opt16" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="innormal2" class="btn-check" id="in-opt17" value="INGuard">
+          <label for="in-opt17" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="innormal2" class="btn-check" id="in-opt18" value="INSupport">
+          <label for="in-opt18" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="innormal2" class="btn-check" id="in-opt19" value="INBoost">
+          <label for="in-opt19" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">ノーマル1とノーマル2で重複選択はできません。</span>
+
+        <!--<div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">デンジャー1</div>
+        <div class="my-2 row row-cols-4 row-cols-lg-6 g-0" id="meta-indicator2">
+          <input type="radio" name="idanger1" class="btn-check" id="attr-opt13" value="">
+          <label for="attr-opt13" class="col btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_none.png"></label>
+          <input type="radio" name="idanger1" class="btn-check" id="in-opt5" value="IDanger">
+          <label for="in-opt5" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>-->
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">デンジャー</div>
+        <div class="my-2 row row-cols-4 row-cols-lg-6 g-0" id="meta-indicator3">
+          <input type="radio" name="idanger2" class="btn-check" id="attr-opt12" value="" checked>
+          <label for="attr-opt12" class="col btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_none.png"></label>
+          <input type="radio" name="idanger2" class="btn-check" id="in-opt6" value="IDMatch">
+          <label for="in-opt6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="idanger2" class="btn-check" id="in-opt7" value="IDGuard">
+          <label for="in-opt7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="idanger2" class="btn-check" id="in-opt8" value="IDSupport">
+          <label for="in-opt8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="idanger2" class="btn-check" id="in-opt9" value="IDBoost">
+          <label for="in-opt9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="idanger2" class="btn-check" id="in-opt10" value="IDHard">
+          <label for="in-opt10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">デンジャーのスキルインジケーターは画像のものとは異なり、紫色のものになります。</span>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="h5 bg-success text-white fw-bold p-2 rounded mt-4">ゲーム開始時</div>
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容1</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="start-bonus1" placeholder="ゲーム開始時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容1を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="start-if-element1">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+          </select>
+          <label class="input-group-text" for="start-if-element1">が</label>
+          <input type="number" class="form-control" id="start-if-val1" placeholder="値を入力">
+          <select class="form-select" id="start-if-comparison1">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="start-if-in1">
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-1" value="INMatch">
+          <label for="start-in-opt1-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-2" value="INGuard">
+          <label for="start-in-opt1-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-3" value="INSupport">
+          <label for="start-in-opt1-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-4" value="INBoost">
+          <label for="start-in-opt1-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-6" value="IDMatch">
+          <label for="start-in-opt1-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-7" value="IDGuard">
+          <label for="start-in-opt1-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-8" value="IDSupport">
+          <label for="start-in-opt1-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-9" value="IDBoost">
+          <label for="start-in-opt1-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="start-in1" class="btn-check" id="start-in-opt1-10" value="IDSupport">
+          <label for="start-in-opt1-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+        <hr class="my-3">
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容2</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="start-bonus2" placeholder="ゲーム開始時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容2を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="start-if-element2">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+          </select>
+          <label class="input-group-text" for="start-if-element2">が</label>
+          <input type="number" class="form-control" id="start-if-val2" placeholder="値を入力">
+          <select class="form-select" id="start-if-comparison2">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="start-if-in2">
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-1" value="INMatch">
+          <label for="start-in-opt2-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-2" value="INGuard">
+          <label for="start-in-opt2-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-3" value="INSupport">
+          <label for="start-in-opt2-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-4" value="INBoost">
+          <label for="start-in-opt2-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-6" value="IDMatch">
+          <label for="start-in-opt2-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-7" value="IDGuard">
+          <label for="start-in-opt2-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-8" value="IDSupport">
+          <label for="start-in-opt2-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-9" value="IDBoost">
+          <label for="start-in-opt2-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="start-in2" class="btn-check" id="start-in-opt2-10" value="IDSupport">
+          <label for="start-in-opt2-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <div class="h5 bg-success text-white fw-bold p-2 rounded mt-4">一定時間経過</div>
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容1</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="timer-bonus1" placeholder="一定時間経過時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容1を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="timer-if-element1">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="Score">スコア</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+            <option value="Prog">曲の進捗［ノーツ基準］（0～120）</option>
+            <option value="ProgTime">曲の進捗［時間基準］（0～120）</option>
+          </select>
+          <label class="input-group-text" for="timer-if-element1">が</label>
+          <input type="number" class="form-control" id="timer-if-val1" placeholder="値を入力">
+          <select class="form-select" id="timer-if-comparison1">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター制御</div>
+        <div class="input-group">
+          <label class="input-group-text" for="timer-if-counter-hundle1">カウンター値</label>
+          <input type="number" class="form-control" id="timer-if-counter-hundle-val1" placeholder="変動値を入力">
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">マイナス値を入力するとカウントダウンになります。<br>カウントを使用しない場合は変動値を空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="timer-if-in1">
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-1" value="INMatch">
+          <label for="timer-in-opt1-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-2" value="INGuard">
+          <label for="timer-in-opt1-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-3" value="INSupport">
+          <label for="timer-in-opt1-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-4" value="INBoost">
+          <label for="timer-in-opt1-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-6" value="IDMatch">
+          <label for="timer-in-opt1-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-7" value="IDGuard">
+          <label for="timer-in-opt1-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-8" value="IDSupport">
+          <label for="timer-in-opt1-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-9" value="IDBoost">
+          <label for="timer-in-opt1-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="timer-in1" class="btn-check" id="timer-in-opt1-10" value="IDSupport">
+          <label for="timer-in-opt1-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <hr class="my-3">
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容2</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="timer-bonus2" placeholder="一定時間経過時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容2を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="timer-if-element2">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="Score">スコア</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+            <option value="Prog">曲の進捗［ノーツ基準］（0～120）</option>
+            <option value="ProgTime">曲の進捗［時間基準］（0～120）</option>
+          </select>
+          <label class="input-group-text" for="timer-if-element2">が</label>
+          <input type="number" class="form-control" id="timer-if-val2" placeholder="値を入力">
+          <select class="form-select" id="timer-if-comparison2">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター制御</div>
+        <div class="input-group">
+          <label class="input-group-text" for="timer-if-counter-hundle2">カウンター値</label>
+          <input type="number" class="form-control" id="timer-if-counter-hundle-val2" placeholder="変動値を入力">
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">マイナス値を入力するとカウントダウンになります。<br>カウントを使用しない場合は変動値を空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="timer-if-in2">
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-1" value="INMatch">
+          <label for="timer-in-opt2-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-2" value="INGuard">
+          <label for="timer-in-opt2-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-3" value="INSupport">
+          <label for="timer-in-opt2-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-4" value="INBoost">
+          <label for="timer-in-opt2-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-6" value="IDMatch">
+          <label for="timer-in-opt2-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-7" value="IDGuard">
+          <label for="timer-in-opt2-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-8" value="IDSupport">
+          <label for="timer-in-opt2-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-9" value="IDBoost">
+          <label for="timer-in-opt2-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="timer-in2" class="btn-check" id="timer-in-opt2-10" value="IDSupport">
+          <label for="timer-in-opt2-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <div class="h5 bg-success text-white fw-bold p-2 rounded mt-4">ゲーム終了時</div>
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容1</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="finish-bonus1" placeholder="ゲーム終了時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容1を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="finish-if-element1">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="MaxCombo">最大コンボ数</option>
+            <option value="Score">スコア</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+          </select>
+          <label class="input-group-text" for="finish-if-element1">が</label>
+          <input type="number" class="form-control" id="finish-if-val1" placeholder="値を入力">
+          <select class="form-select" id="finish-if-comparison1">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="finish-if-in1">
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-1" value="INMatch">
+          <label for="finish-in-opt1-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-2" value="INGuard">
+          <label for="finish-in-opt1-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-3" value="INSupport">
+          <label for="finish-in-opt1-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-4" value="INBoost">
+          <label for="finish-in-opt1-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-6" value="IDMatch">
+          <label for="finish-in-opt1-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-7" value="IDGuard">
+          <label for="finish-in-opt1-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-8" value="IDSupport">
+          <label for="finish-in-opt1-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-9" value="IDBoost">
+          <label for="finish-in-opt1-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in1" class="btn-check" id="finish-in-opt1-10" value="IDSupport">
+          <label for="finish-in-opt1-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <hr class="my-3">
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容2</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control" id="finish-bonus2" placeholder="ゲーム終了時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容2を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <select class="form-select" id="finish-if-element2">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="MaxCombo">最大コンボ数</option>
+            <option value="Score">スコア</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+          </select>
+          <label class="input-group-text" for="finish-if-element2">が</label>
+          <input type="number" class="form-control" id="finish-if-val2" placeholder="値を入力">
+          <select class="form-select" id="finish-if-comparison2">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">無条件の場合は未選択</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="finish-if-in2">
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-1" value="INMatch">
+          <label for="finish-in-opt2-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-2" value="INGuard">
+          <label for="finish-in-opt2-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-3" value="INSupport">
+          <label for="finish-in-opt2-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-4" value="INBoost">
+          <label for="finish-in-opt2-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-6" value="IDMatch">
+          <label for="finish-in-opt2-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-7" value="IDGuard">
+          <label for="finish-in-opt2-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-8" value="IDSupport">
+          <label for="finish-in-opt2-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-9" value="IDBoost">
+          <label for="finish-in-opt2-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in2" class="btn-check" id="finish-in-opt2-10" value="IDSupport">
+          <label for="finish-in-opt2-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <hr class="my-3">
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容3</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <input type="number" class="form-control mb-2" id="finish-bonus3" placeholder="ゲーム終了時のボーナス値を入力" min="0">
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容3を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group mb-2">
+          <select class="form-select" id="finish-if-element3">
+            <option value="" selected>未選択</option>
+            <option value="AllJustice">AllJustice</option>
+            <option value="FullCombo">FullCombo</option>
+          </select>
+          <label class="input-group-text" for="finish-if-element3">を達成</label>
+        </div>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="finish-if-in3">
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-1" value="INMatch">
+          <label for="finish-in-opt3-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-2" value="INGuard">
+          <label for="finish-in-opt3-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-3" value="INSupport">
+          <label for="finish-in-opt3-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-4" value="INBoost">
+          <label for="finish-in-opt3-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-6" value="IDMatch">
+          <label for="finish-in-opt3-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-7" value="IDGuard">
+          <label for="finish-in-opt3-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-8" value="IDSupport">
+          <label for="finish-in-opt3-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-9" value="IDBoost">
+          <label for="finish-in-opt3-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="finish-in3" class="btn-check" id="finish-in-opt3-10" value="IDSupport">
+          <label for="finish-in-opt3-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="h5 bg-danger text-white fw-bold p-2 rounded mt-4">ノーツ判定</div>
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容1</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <div class="input-group">
+          <input type="number" class="form-control" id="judge-bonus1" placeholder="スキル発動時のボーナス値を入力" min="0">
+          <select class="form-select" id="judge-bonus-type1">
+            <option value="Add">加算</option>
+            <option value="Mul">乗算</option>
+            <option value="Guard">ガード</option>
+            <option value="Kill">ゲーム強制終了</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容1を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合は値を0）。<br>乗算の場合、単位は［%］になります。<br>ガード・ゲーム強制終了を指定した場合はボーナス値は考慮されません。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notes1">ノーツの区分</label>
+          <select class="form-select form-select-sm" id="judge-if-notes1" size="5" multiple>
+            <option value="CTap" selected>タップ</option>
+            <option value="CFlick" selected>フリック</option>
+            <option value="CSlide" selected>スライド</option>
+            <option value="CHold" selected>ホールド</option>
+            <option value="CAir" selected>エアー</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notestype1">ノーツの種類</label>
+          <select class="form-select form-select-sm" id="judge-if-notestype1" size="6" multiple>
+            <option value="Tap">タップ</option>
+            <option value="ExTap">EXタップ</option>
+            <option value="Damage">ダメージ</option>
+            <option value="Flick">フリック</option>
+            <option value="SlideB">スライド始点</option>
+            <option value="SlideS">スライド中継点</option>
+            <option value="SlideE">スライド終点</option>
+            <option value="SlideI">スライド</option>
+            <option value="HoldB">ホールド始点</option>
+            <option value="HoldE">ホールド終点</option>
+            <option value="HoldI">ホールド</option>
+            <option value="AirU">振り上げエアー</option>
+            <option value="AirD">振り下げエアー</option>
+            <option value="AirH">エアーホールド・エアースライド</option>
+            <option value="AirA">エアーアクション</option>
+            <option value="AirC">エアークラッシュ</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-answer1">判定</label>
+          <select class="form-select form-select-sm" id="judge-if-answer1" size="4" multiple>
+            <option value="JC">JUSTICE CRITICAL</option>
+            <option value="J">JUSTICE</option>
+            <option value="A">ATTACK</option>
+            <option value="M">MISS</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group mb-2">
+          <select class="form-select" id="judge-if-element1">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="Combo">現在のコンボ数</option>
+            <option value="ComboMod100">［現在のコンボ数/100］の余り</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+            <option value="Prog">曲の進捗［ノーツ基準］（0～120）</option>
+            <option value="ProgTime">曲の進捗［時間基準］（0～120）</option>
+          </select>
+          <label class="input-group-text" for="judge-if-element1">が</label>
+          <input type="number" class="form-control" id="judge-if-element-val1" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-comparison1">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="input-group mb-2">
+          <label class="input-group-text" for="judge-if-counter1">カウンターの値が</label>
+          <input type="number" class="form-control" id="judge-if-counter-val1" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-counter1">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター制御</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-counter-hundle1">カウンター値</label>
+          <input type="number" class="form-control" id="judge-if-counter-hundle-val1" placeholder="変動値を入力">
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">マイナス値を入力するとカウントダウンになります。<br>カウントを使用しない場合は変動値を空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="judge-if-in1">
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-1" value="INMatch">
+          <label for="judge-in-opt1-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-2" value="INGuard">
+          <label for="judge-in-opt1-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-3" value="INSupport">
+          <label for="judge-in-opt1-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-4" value="INBoost">
+          <label for="judge-in-opt1-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-5" value="IDanger">
+          <label for="judge-in-opt1-5" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-6" value="IDMatch">
+          <label for="judge-in-opt1-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-7" value="IDGuard">
+          <label for="judge-in-opt1-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-8" value="IDSupport">
+          <label for="judge-in-opt1-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-9" value="IDBoost">
+          <label for="judge-in-opt1-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in1" class="btn-check" id="judge-in-opt1-10" value="IDSupport">
+          <label for="judge-in-opt1-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <hr class="my-3">
+
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容2</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <div class="input-group">
+          <input type="number" class="form-control" id="judge-bonus2" placeholder="スキル発動時のボーナス値を入力" min="0">
+          <select class="form-select" id="judge-bonus-type2">
+            <option value="Add">加算</option>
+            <option value="Mul">乗算</option>
+            <option value="Guard">ガード</option>
+            <option value="Kill">ゲーム強制終了</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容2を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。<br>乗算の場合、単位は［%］になります。<br>ガード・ゲーム強制終了を指定した場合はボーナス値は考慮されません。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notes2">ノーツの区分</label>
+          <select class="form-select form-select-sm" id="judge-if-notes2" size="5" multiple>
+            <option value="CTap" selected>タップ</option>
+            <option value="CFlick" selected>フリック</option>
+            <option value="CSlide" selected>スライド</option>
+            <option value="CHold" selected>ホールド</option>
+            <option value="CAir" selected>エアー</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notestype1">ノーツの種類</label>
+          <select class="form-select form-select-sm" id="judge-if-notestype2" size="6" multiple>
+            <option value="Tap">タップ</option>
+            <option value="ExTap">EXタップ</option>
+            <option value="Damage">ダメージ</option>
+            <option value="Flick">フリック</option>
+            <option value="SlideB">スライド始点</option>
+            <option value="SlideS">スライド中継点</option>
+            <option value="SlideE">スライド終点</option>
+            <option value="SlideI">スライド</option>
+            <option value="HoldB">ホールド始点</option>
+            <option value="HoldE">ホールド終点</option>
+            <option value="HoldI">ホールド</option>
+            <option value="AirU">振り上げエアー</option>
+            <option value="AirD">振り下げエアー</option>
+            <option value="AirH">エアーホールド・エアースライド</option>
+            <option value="AirA">エアーアクション</option>
+            <option value="AirC">エアークラッシュ</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-answer2">判定</label>
+          <select class="form-select form-select-sm" id="judge-if-answer2" size="4" multiple>
+            <option value="JC">JUSTICE CRITICAL</option>
+            <option value="J">JUSTICE</option>
+            <option value="A">ATTACK</option>
+            <option value="M">MISS</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group mb-2">
+          <select class="form-select" id="judge-if-element2">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="Combo">現在のコンボ数</option>
+            <option value="ComboMod100">［現在のコンボ数/100］の余り</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+            <option value="Prog">曲の進捗［ノーツ基準］（0～120）</option>
+            <option value="ProgTime">曲の進捗［時間基準］（0～120）</option>
+          </select>
+          <label class="input-group-text" for="judge-if-element2">が</label>
+          <input type="number" class="form-control" id="judge-if-element-val2" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-comparison2">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="input-group mb-2">
+          <label class="input-group-text" for="judge-if-counter2">カウンターの値が</label>
+          <input type="number" class="form-control" id="judge-if-counter-val2" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-counter2">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター制御</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-counter-hundle2">カウンター値</label>
+          <input type="number" class="form-control" id="judge-if-counter-hundle-val2" placeholder="変動値を入力">
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">マイナス値を入力するとカウントダウンになります。<br>カウントを使用しない場合は変動値を空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="judge-if-in2">
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-1" value="INMatch">
+          <label for="judge-in-opt2-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-2" value="INGuard">
+          <label for="judge-in-opt2-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-3" value="INSupport">
+          <label for="judge-in-opt2-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-4" value="INBoost">
+          <label for="judge-in-opt2-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-5" value="IDanger">
+          <label for="judge-in-opt2-5" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-6" value="IDMatch">
+          <label for="judge-in-opt2-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-7" value="IDGuard">
+          <label for="judge-in-opt2-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-8" value="IDSupport">
+          <label for="judge-in-opt2-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-9" value="IDBoost">
+          <label for="judge-in-opt2-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in2" class="btn-check" id="judge-in-opt2-10" value="IDSupport">
+          <label for="judge-in-opt2-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+        <hr class="my-3">
+
+        <div class="h6 rounded bg-secondary text-white fw-bold p-2">スキル内容3</div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">ボーナス・ダメージ値</div>
+        <div class="input-group">
+          <input type="number" class="form-control" id="judge-bonus3" placeholder="スキル発動時のボーナス値を入力" min="0">
+          <select class="form-select" id="judge-bonus-type3">
+            <option value="Add">加算</option>
+            <option value="Mul">乗算</option>
+            <option value="Guard">ガード</option>
+            <option value="Kill">ゲーム強制終了</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">スキル内容3を使用する場合は値を必ず設定してください（ボーナス効果を乗せない場合の値は0）。<br>乗算の場合、単位は［%］になります。<br>ガード・ゲーム強制終了を指定した場合はボーナス値は考慮されません。</span>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">発動条件</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notes3">ノーツの区分</label>
+          <select class="form-select form-select-sm" id="judge-if-notes3" size="5" multiple>
+            <option value="CTap" selected>タップ</option>
+            <option value="CFlick" selected>フリック</option>
+            <option value="CSlide" selected>スライド</option>
+            <option value="CHold" selected>ホールド</option>
+            <option value="CAir" selected>エアー</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-notestype3">ノーツの種類</label>
+          <select class="form-select form-select-sm" id="judge-if-notestype3" size="6" multiple>
+            <option value="Tap">タップ</option>
+            <option value="ExTap">EXタップ</option>
+            <option value="Damage">ダメージ</option>
+            <option value="Flick">フリック</option>
+            <option value="SlideB">スライド始点</option>
+            <option value="SlideS">スライド中継点</option>
+            <option value="SlideE">スライド終点</option>
+            <option value="SlideI">スライド</option>
+            <option value="HoldB">ホールド始点</option>
+            <option value="HoldE">ホールド終点</option>
+            <option value="HoldI">ホールド</option>
+            <option value="AirU">振り上げエアー</option>
+            <option value="AirD">振り下げエアー</option>
+            <option value="AirH">エアーホールド・エアースライド</option>
+            <option value="AirA">エアーアクション</option>
+            <option value="AirC">エアークラッシュ</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-answer3">判定</label>
+          <select class="form-select form-select-sm" id="judge-if-answer3" size="4" multiple>
+            <option value="JC">JUSTICE CRITICAL</option>
+            <option value="J">JUSTICE</option>
+            <option value="A">ATTACK</option>
+            <option value="M">MISS</option>
+          </select>
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">複数選択できます。</span>
+
+        <div class="input-group mb-2">
+          <select class="form-select" id="judge-if-element3">
+            <option value="" selected>未選択</option>
+            <option value="Random">乱数（0～100）</option>
+            <option value="Gauge">ゲージの本数</option>
+            <option value="JCCount">JUSTICE CRITICALの数</option>
+            <option value="JCount">JUSTICEの数</option>
+            <option value="ACount">ATTACKの数</option>
+            <option value="MCount">MISSの数</option>
+            <option value="Combo">現在のコンボ数</option>
+            <option value="ComboMod100">［現在のコンボ数/100］の余り</option>
+            <option value="BorderSSS">SSSボーダー猶予</option>
+            <option value="BorderSS">SSボーダー猶予</option>
+            <option value="BorderS">Sボーダー猶予</option>
+            <option value="Prog">曲の進捗［ノーツ基準］（0～120）</option>
+            <option value="ProgTime">曲の進捗［時間基準］（0～120）</option>
+          </select>
+          <label class="input-group-text" for="judge-if-element3">が</label>
+          <input type="number" class="form-control" id="judge-if-element-val3" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-comparison3">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="input-group mb-2">
+          <label class="input-group-text" for="judge-if-counter3">カウンターの値が</label>
+          <input type="number" class="form-control" id="judge-if-counter-val3" placeholder="値を入力" min="0">
+          <select class="form-select" id="judge-if-counter3">
+            <option value=">=">以上</option>
+            <option value="<=">以下</option>
+            <option value="=">と一致</option>
+            <option value="!=">と不一致</option>
+            <option value=">">より大きい</option>
+            <option value="<">より小さい</option>
+          </select>
+        </div>
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">カウンター制御</div>
+        <div class="input-group">
+          <label class="input-group-text" for="judge-if-counter-hundle3">カウンター値</label>
+          <input type="number" class="form-control" id="judge-if-counter-hundle-val3" placeholder="変動値を入力">
+        </div>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">マイナス値を入力するとカウントダウンになります。<br>カウントを使用しない場合は変動値を空欄にします。</span>
+
+        <div class="h6 border-top border-bottom border-primary border-2 p-2 fw-bold">スキルインジケーター選択</div>
+        <div class="my-2 row row-cols-5 g-0" id="judge-if-in3">
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-1" value="INMatch">
+          <label for="judge-in-opt3-1" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-2" value="INGuard">
+          <label for="judge-in-opt3-2" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-3" value="INSupport">
+          <label for="judge-in-opt3-3" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-4" value="INBoost">
+          <label for="judge-in-opt3-4" class="d-inline-block overflow-hidden btn btn-outline-primary"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-5" value="IDanger">
+          <label for="judge-in-opt3-5" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-6" value="IDMatch">
+          <label for="judge-in-opt3-6" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_friend.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-7" value="IDGuard">
+          <label for="judge-in-opt3-7" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_defence.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-8" value="IDSupport">
+          <label for="judge-in-opt3-8" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_support.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-9" value="IDBoost">
+          <label for="judge-in-opt3-9" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_boost.png"></label>
+          <input type="radio" name="judge-in3" class="btn-check" id="judge-in-opt3-10" value="IDSupport">
+          <label for="judge-in-opt3-10" class="d-inline-block overflow-hidden btn btn-outline-danger"><img style="width:36px;height:36px;" src="img/icon_skill_death.png"></label>
+        </div>
+
+
+      </div>
+
+      <div class="col-12 my-2">
+        <div id="create" class="h5 bg-primary text-white fw-bold p-2 rounded mt-4">作成内容</div>
+        <button id="test-copy" class="btn btn-success mt-1 rounded-0 rounded-top">作成内容をコピーする</button>
+        <textarea class="form-control" id="test" rows="20" style="border-radius: 0.0rem 0.25rem 0.25rem 0.25rem;" readonly></textarea>
+        <span class="d-inline-block overflow-hidden small text-muted mb-2">作成をクリックすると内容が表示されます。</span>
+      </div>
+
+
+      <div class="col-12 my-2 bg-white border-top py-2 position-sticky bottom-0">
+        <button type="button" class="btn btn-primary w-100" id="download">スキルを作成する</button>
+      </div>
+
+      <div class="col-12">
+        <!--クリップボードにコピー-->
+        <div class="position-fixed top-0 start-50 translate-middle-x" style="z-index: 11">
+          <div id="toast-clip" class="toast align-items-center text-white bg-success border-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+            <div class="d-flex">
+              <div class="toast-body">
+                <i class="mx-1 bi bi-check-lg"></i>作成内容をクリップボードにコピーしました。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light nav-bottom border-top">
+      <div class="container-fluid">
+        <span><a class="" href="https://gist.github.com/inonote/d4f9a1ee84da849b5b8962db13d42220">UMIGURI Chara Skill Language ver.1 仕様</a><br>
+          サイト管理　<a class="" href="https://twitter.com/Kotachi_wiz">@Kotachi_wiz</a></span>
+      </div>
+    </nav>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  <script src="skill_generate.js" crossorigin="anonymous"></script>
+
+</body>
+<style>
+  body {
+    touch-action: manipulation;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  a.music-modal {
+    text-decoration: underline !important;
+    color: black;
+    cursor: pointer;
+  }
+
+  .frame-ult {
+    background-color: #000000;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e5004f;
+  }
+
+  .frame-mas {
+    background-color: #af0bd2;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #af0bd2;
+  }
+
+  .frame-exp {
+    background-color: #e5004f;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e5004f;
+  }
+
+  .frame-adv {
+    background-color: #f39800;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #f39800;
+  }
+
+  .frame-bas {
+    background-color: #22ac38;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #22ac38;
+  }
+
+  .level-frame {
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 70%), 1px 1px 1px rgb(0 0 0 / 70%);
+  }
+</style>
+
+</html>
