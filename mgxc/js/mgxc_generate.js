@@ -82,7 +82,7 @@ $(function () {
             MGXC += `CHARTCONST\n`;
         };
 
-        MGXC += `SONGID\t${data.songid}\n`;
+        MGXC += `SONGID\tMGT${data.songid}\n`;
         MGXC += `BGM\t${data.bgm}\n`;
         MGXC += `BGMOFFSET\t0.00000\n`;
 
