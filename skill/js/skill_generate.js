@@ -436,7 +436,7 @@ $(function () {
             };
         };
 
-        UCSL += `\n# 生成　https://score-list.herokuapp.com/skill/index.html\n`;
+        //UCSL += `\n# 生成　https://score-list.herokuapp.com/skill/index.html\n`;
 
 
 
