@@ -45,6 +45,7 @@ $(function () {
             bg: $('#bg').val(),
             bgscene: $('#bgscene').val(),
             bgsync: $('#bgsync').prop('checked') ? 1 : 0,
+            fieldcol: $('#fcol').val() ? 1: "000000",
             fieldbg: $('#fbg').val(),
             fieldscene: $('#fscene').val(),
             mainbpm: $('#meta-bpm').val(),
@@ -98,7 +99,7 @@ $(function () {
 
         MGXC += `BGSYNC\t${data.bgsync}\n`;
 
-        MGXC += `FIELDCOL\t0\n`;
+        MGXC += `FIELDCOL\t${data.fieldcol}\n`;
         MGXC += `FIELDBG\t${data.fieldbg}\n`;
         MGXC += `FIELDSCENE\t${data.fieldscene}\n`;
         MGXC += `MAINTIL\t0\n`;
