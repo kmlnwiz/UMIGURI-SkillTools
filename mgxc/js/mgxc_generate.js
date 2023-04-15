@@ -45,7 +45,7 @@ $(function () {
             bg: $('#bg').val(),
             bgscene: $('#bgscene').val(),
             bgsync: $('#bgsync').prop('checked') ? 1 : 0,
-            fieldcol: $('#fcol').val() ? 1: "000000",
+            fieldcol: $('#fcol').val() ? $('#fcol').val(): "000000",
             fieldbg: $('#fbg').val(),
             fieldscene: $('#fscene').val(),
             mainbpm: $('#meta-bpm').val(),
